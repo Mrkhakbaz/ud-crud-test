@@ -9,15 +9,9 @@
   <ItemGroup>
     <Folder Include="Aggregates\Events\" />
     <Folder Include="Aggregates\Specifications\" />
-    <Folder Include="Aggregates\Services\" />
-    <Folder Include="Aggregates\Rules\" />
     <Folder Include="Aggregates\ValueObjects\" />
     <Folder Include="SharedKernel\" />
     <Folder Include="SeedWork\Specification\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Persistence\Persistence.csproj" />
   </ItemGroup>
 
 </Project>

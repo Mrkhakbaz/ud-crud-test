@@ -1,4 +1,6 @@
-﻿using Domain.SeedWork.Primitives;
+﻿using Domain.Aggregates.Rules;
+using Domain.Aggregates.Services;
+using Domain.SeedWork.Primitives;
 
 namespace Domain.Aggregates.Entities;
 
@@ -20,18 +22,11 @@ public class Customer : AggregateRoot<Guid>
         DateTime dateOfBirth,
         string phoneNumber,
         string email,
-        string bankAccountNumber
-        /*ICustomerUniquenessCheckerService uniquenessChecker*/)
+        string bankAccountNumber,
+        ICustomerUniquenessCheckerService uniquenessChecker)
     {
-        //if (uniquenessChecker.IsDuplicate(firstName, lastName, dateOfBirth))
-        //{
-        //    throw new BusinessRuleValidationException("Customer with the same personal information already exists.");
-        //}
-
-        //if (uniquenessChecker.IsEmailTaken(email))
-        //{
-        //    throw new BusinessRuleValidationException("Email must be unique.");
-        //}
+       CheckRule(new CustomerEmailMustBeUnique(email, uniquenessChecker));
+       CheckRule(new CustomerPersonalInfoMustBeUnique(firstName,lastName,dateOfBirth,uniquenessChecker));
 
         return new Customer
         {
@@ -44,10 +39,11 @@ public class Customer : AggregateRoot<Guid>
             BankAccountNumber = bankAccountNumber,
             IsDeleted = false
         };
+        //AddDomainEvent(new CustomerCreateDomainEvent(Id));
     }
 
-    public void UpdatePersonalInfo(string firstName, string lastName, DateTime dateOfBirth ,
-        string phoneNumber, string email,string bankAccountNumber)
+    public void UpdatePersonalInfo(string firstName, string lastName, DateTime dateOfBirth,
+        string phoneNumber, string email, string bankAccountNumber)
     {
         FirstName = firstName;
         LastName = lastName;
